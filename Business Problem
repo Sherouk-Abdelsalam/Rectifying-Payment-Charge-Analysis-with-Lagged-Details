@@ -1,1 +1,11 @@
 # Rectifying-Payment-Charge-Analysis-with-Lagged-Details
+*Business Problem*
+The company wants to analyze instances of payment reversals for specific charge types, focusing on deliveries. 
+The analysis involves comparing current and previous invoice details for orders, specifically looking at changes in charge amounts.
+
+**Potential Use Cases:**
+
+-Identifying Payment Reversals.
+-Monitoring Transactional Changes.
+-Financial Integrity: Detecting discrepancies or errors in charge amounts, allowing the company to rectify and reconcile transactional data.
+-Operational Insights: Understanding issues in the payment processing workflow.
