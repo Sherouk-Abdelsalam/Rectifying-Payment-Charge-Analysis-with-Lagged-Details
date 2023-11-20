@@ -1,1 +1,30 @@
 # Rectifying-Payment-Charge-Analysis-with-Lagged-Details
+-- Common Table Expression (CTE) to calculate details for charges' reversals/rectifying
+WITH CustomerPaymentReversalDetails AS (
+    SELECT
+        Customer_Number,
+        Shipment_Number,
+        Order_Number,
+        Invoice_Number,
+        Invoice_Date,
+        Charge_Type,
+        Charge_Amount,
+        -- Lag functions to retrieve previous invoice details
+        LAG(Invoice_Date) OVER (PARTITION BY Order_Number, Charge_Type, Shipment_Number ORDER BY Payment_Date) AS Old_Invoice_Date,
+        LAG(Payment_Number) OVER (PARTITION BY Order_Number, Charge_Type, Shipment_Number ORDER BY Payment_Date) AS Old_Invoice_Number,
+        LAG(Charge_Amount) OVER (PARTITION BY Order_Number, Charge_Type, Shipment_Number ORDER BY Payment_Date) AS Old_Charge_Amount
+    FROM
+        `customer.payment.invoice_charge`
+)
+
+-- Selecting and rounding final charged amount (old+new)
+SELECT
+    *,
+    ROUND((Old_Charge_Amount + Charge_Amount), 2) AS FINAL_CHARGED_AMOUNT
+-- Filtering results for relevant charge type and ensuring that there's an old invoice data
+FROM
+    CustomerPaymentReversalDetails
+WHERE
+    Old_Invoice_Number IS NOT NULL
+    AND
+    Charge_Type IN ('Delivery')
