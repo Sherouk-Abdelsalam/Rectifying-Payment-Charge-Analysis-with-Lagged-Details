@@ -3,7 +3,7 @@
 The company wants to analyze instances of payment reversals for specific charge types, focusing on deliveries. 
 The analysis involves comparing current and previous invoice details for orders, specifically looking at changes in charge amounts.
 
-**Potential Use Cases:**
+** Potential Use Cases: **
 
 -Identifying Payment Reversals.
 -Monitoring Transactional Changes.
